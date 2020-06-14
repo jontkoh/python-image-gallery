@@ -1,9 +1,15 @@
 from flask import Flask
+import psycopg2
+import json
+from gallery.tools.db import *
+
+
+
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello, jon!'
+    return listUsers()
 
 @app.route('/admin')
 def hello_admin():
