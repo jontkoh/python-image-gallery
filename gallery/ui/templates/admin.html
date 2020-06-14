@@ -1,0 +1,26 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin</title>
+</head>
+<body>
+  <h1>{{t_title}}</h1>
+  <div class='div_outer'>
+	  {% block content%}
+	  {% for row in rows %}
+	  <a href="/admin/user/edit"> {{row}} </a>
+	  <form action="/admin/user/delete" method="GET">
+
+		  <input type="submit" value="go to delete page" />
+	  </form>
+	  <br>
+
+	  {% endfor %}
+	  {% endblock %}
+	  
+	  <form action="/admin/createUser" method="GET">
+		  <input type="submit" value="create a new user" /> 
+  </div>
+</body>
+</html>

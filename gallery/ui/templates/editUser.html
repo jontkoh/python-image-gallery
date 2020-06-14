@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Editing user</title>
+</head>
+<body>
+	<p>Please enter ALL of the following to edit</p>
+	<form action="/admin/user/editConfirmed" method="POST">
+		Username to edit: <input type="text" name="username" />
+		<br/>
+		New or same password: <input type="text" name="password" />
+		<br/>
+		New or same full name: <input type="text" name="fullName" />
+		<input type="submit" value="Confirm" />
+	</form>
+</body>
+</html>
