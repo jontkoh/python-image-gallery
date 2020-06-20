@@ -1,0 +1,6 @@
+cd into /home/ec2-user/python-image-gallery/
+type "./debug" into commandline without the quotation marks.
+Open web browser and navigate to 52.52.61.36:5000/admin
+
+Region:
+US West (N. California) us-west-1

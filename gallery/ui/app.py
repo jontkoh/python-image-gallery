@@ -3,8 +3,7 @@ from flask import request
 from flask import render_template
 import psycopg2
 import json
-from secrets import get_secret_image_gallery
-import db
+from . secrets import get_secret_image_gallery
 
 connection = None
 
