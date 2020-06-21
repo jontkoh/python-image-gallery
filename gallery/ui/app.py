@@ -41,8 +41,6 @@ def listUsers():
     cursor = connection.cursor() 
     cursor.execute('SELECT username, full_name FROM users;')
     username = cursor.fetchall()
-    #cursor.execute('SELECT full_name FROM users;')
-    #fullname = cursor.fetchall() 
     cursor.close()
     connection.close()
     return username
@@ -87,11 +85,11 @@ app = Flask(__name__)
 def hello_world():
     return 'please go to /admin'
 
-@app.route('/admin', methods=["GET", "POST"])
+@app.route('/admin')
 def hello_admin():
     connect()
-    #userRow = request.form['row']
-    return render_template('admin.html', rows=listUsers())
+    row = listUsers()
+    return render_template('admin.html', rows=row)
 
 @app.route('/admin/createUser')
 def create_user():
