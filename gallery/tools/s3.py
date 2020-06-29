@@ -23,10 +23,18 @@ def put_object(bucket_name, key, value):
         return False
     return True
 
-
+def get_object(bucket_name, key):
+    try:
+        s3_client = boto3.client('s3')
+        result = s3_client.get_object(Bucket=bucket_name, Key=key)
+    except ClientError as e:
+        logging.error(e)
+        return None
+    return result
 
 def main():
-    put_object('edu.au.image-gallery', 'banana', 'yellow')
-    
+    put_object('edu.au.image-gallery', 'banana', 'green')
+    print(get_object('edu.au.image-gallery', 'banana')['Body'].read())
+
 if __name__ == '__main__':
     main()
