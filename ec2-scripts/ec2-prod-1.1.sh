@@ -5,7 +5,7 @@ CONFIG_BUCKET="edu.au.image-gallery-config"
 
 #Install packages
 yum -y update
-yum install -y python3
+yum install -y python3 postgresql postgresql-devel gcc python3-devel
 amazon-linux-extras install -y nginx1
 yum install -y git
 
