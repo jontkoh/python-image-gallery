@@ -1,0 +1,65 @@
+---
+- hosts: localhost
+  gather_facts: no
+  module_defaults: 
+    group/aws: 
+      region: "us-west-1"
+  tasks: 
+    - name: Create ec2 launch template
+      ec2_launch_template:
+        name: "ansible-lt"
+        state: present
+        image_id: "ami-04e59c05167ea7bd5"
+        key_name: koh
+        instance_type: t3.nano
+        iam_instance_profile: image-gallery-server-role
+        network_interfaces: 
+          - device_index: 0
+            description: M5 autoscaler template
+            associate_public_ip_address: True
+            groups: ['{{Module5_sg.group_id}}']
+    
+    - name: Create target group for lb
+      elb_target_group:
+        name: ansible-tg
+        target_type: instance
+        vpc_id: "{{ vpc.vpc.id }}"
+        protocol: tcp
+        port: 80
+        stickiness_enabled: no
+        stickiness_type: source_ip
+        state: present
+        wait: yes
+        wait_timeout: 350
+      register: tg
+
+    - name: Create network lb
+      elb_network_lb:
+        name: Module5-nlb
+        subnets:
+          - "{{ public_subnet.subnet.id }}"
+        listeners:
+          - Protocol: TCP
+            Port: 80
+            DefaultActions: 
+              - Type: forward 
+                TargetGroupName: ansible-tg
+        wait: yes
+        state: present
+      register: nlb
+
+    - name: create auto scaling group
+      ec2_asg: 
+        name: ansible-asg
+        availability_zones: ['us-west-1c']
+        target_group_arns: '{{ tg.target_group_arn }}'
+        vpc_zone_identifier: ['{{ public_subnet.subnet.id }}']
+        launch_template: 
+          version: '$Latest'
+          launch_template_name: 'ansible-lt'
+        min_size: 1
+        max_size: 5
+        desired_capacity: 1
+        wait_for_instances: yes
+        wait_timeout: 1000
+        state: present
