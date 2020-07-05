@@ -33,6 +33,7 @@ def execute(query):
     global cursor
     cursor = connection.cursor()
     cursor.execute(query)
+    return cursor
 
 
 
