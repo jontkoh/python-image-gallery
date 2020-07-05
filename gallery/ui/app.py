@@ -8,6 +8,7 @@ from ..data.user import User
 from ..data.postgres_user_dao import PostgresUserDAO
 
 app = Flask(__name__)
+app.secret_key = b'asdf1234'
 
 connect()
 
@@ -18,12 +19,9 @@ def get_user_dao():
 def hello_world():
     return 'please go to /admin'
 
-@app.route('/users')
-def users():
-    result = ""
-    for user in get_user_dao().get_users():
-        result += str(user)
-    return result
+@app.route('/login', methods=['POST'])
+def login():
+    return render_template('login.html')
 
 @app.route('/admin')
 def hello_admin():
