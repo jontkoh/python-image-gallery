@@ -3,6 +3,7 @@ import json
 from ..aws.secrets import get_secret_image_gallery
 
 connection = None
+cursor = None
 
 def get_secret():
     jsonString = get_secret_image_gallery()
@@ -22,12 +23,14 @@ def get_dbname(secret):
 
 def connect():
     global connection
+    global cursor
     secret = get_secret()
     connection = psycopg2.connect(host=get_host(secret), dbname=get_dbname(secret), user=get_username(secret), password=get_password(secret))
     cursor = connection.cursor()
 
 def execute(query):
     global connection
+    global cursor
     cursor = connection.cursor()
     cursor.execute(query)
 
@@ -35,6 +38,8 @@ def execute(query):
 
 #function for listing users
 def listUsers():
+    global connection
+    global cursor
     cursor = connection.cursor() 
     cursor.execute('SELECT username, full_name FROM users;')
     username = cursor.fetchall()
@@ -76,4 +81,5 @@ def createUser(user, password, fullName):
     cursor.close()
     connection.close()
 
+    
 

@@ -2,8 +2,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 import psycopg2
-import json
-from ..aws.secrets import get_secret_image_gallery
+#from ..aws.secrets import get_secret_image_gallery
 from ..data.db import *
 from ..data.user import User
 from ..data.postgres_user_dao import PostgresUserDAO
@@ -21,7 +20,6 @@ def hello_world():
 
 @app.route('/users')
 def users():
-    connect()
     result = ""
     for user in get_user_dao().get_users():
         result += str(user)

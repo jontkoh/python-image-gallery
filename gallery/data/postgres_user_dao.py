@@ -1,5 +1,4 @@
 from . import db
-import psycopg2
 from .user import User
 from .user_dao import UserDAO
 
@@ -8,5 +7,8 @@ class PostgresUserDAO(UserDAO):
     pass
   def get_users(self):
     result = []
-    result += db.listUsers()
+    cursor = db.execute("select username, password, full_name from users")
+    username = cursor.fetchall()
+    for t in username:
+      result.append(User(t[0], t[1], t[2]))
     return result
