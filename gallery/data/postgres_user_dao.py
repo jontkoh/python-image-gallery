@@ -8,7 +8,8 @@ class PostgresUserDAO(UserDAO):
     pass
   def get_users(self):
     result = []
-    cursor = db.execute("select username,password,full_name from users")
+    cursor = db.execute("select username, password, full_name from users")
+    db.connect()
     for t in cursor.fetchall():
       result.append(User(t[0], t[1], t[2]))
     return result
