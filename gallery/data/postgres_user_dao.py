@@ -1,4 +1,5 @@
 from . import db
+import psycopg2
 from .user import User
 from .user_dao import UserDAO
 

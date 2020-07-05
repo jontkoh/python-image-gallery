@@ -21,6 +21,7 @@ def hello_world():
 
 @app.route('/users')
 def users():
+    connect()
     result = ""
     for user in get_user_dao().get_users():
         result += str(user)
