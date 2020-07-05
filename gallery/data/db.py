@@ -30,8 +30,8 @@ def execute(query):
     global connection
     cursor = connection.cursor()
     cursor.execute(query)
-    cursor.close()
-    connection.close()
+
+
 
 #function for listing users
 def listUsers():
