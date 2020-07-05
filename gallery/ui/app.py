@@ -1,8 +1,10 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+from flask import redirect
+from flask import session
+
 import psycopg2
-#from ..aws.secrets import get_secret_image_gallery
 from ..data.db import *
 from ..data.user import User
 from ..data.postgres_user_dao import PostgresUserDAO
@@ -19,9 +21,21 @@ def get_user_dao():
 def hello_world():
     return 'please go to /admin'
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        user = get_user_dao().get_user_by_username(request.form["username"])
+        if user is None or user.password != request.form["password"]:
+            return redirect('/invalidLogin')
+        else:
+            session['username'] = request.form["username"]
+            return redirect("/debugSession")
+    else: 
+        return render_template('login.html')
+
+@app.route('/invalidLogin')
+def invalid_login():
+    return "Invalid"
 
 @app.route('/admin')
 def hello_admin():
