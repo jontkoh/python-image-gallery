@@ -11,7 +11,8 @@ from ..data.postgres_user_dao import PostgresUserDAO
 from ..aws.secrets import get_secret_flask_session
 
 app = Flask(__name__)
-app.secret_key = get_secret_flask_session()
+
+app.secret_key = get_secret_flask_session()['secret_key']
 
 connect()
 
