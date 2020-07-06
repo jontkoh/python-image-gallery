@@ -14,11 +14,10 @@ app = Flask(__name__)
 
 def get_secret():
     jsonString = get_secret_flask_session()
-    return json.loads(jsonString)
-def get_secretkey():
-    secret = get_secret()
-    return secret['secret_key']
-app.secret_key = get_secretkey()
+    secret = json.loads(jsonString)
+    return secret['secret_key'] 
+    
+app.secret_key = get_secret()
 
 connect()
 
