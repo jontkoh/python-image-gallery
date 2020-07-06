@@ -12,12 +12,7 @@ from ..aws.secrets import get_secret_flask_session
 
 app = Flask(__name__)
 
-def get_secret():
-    jsonString = get_secret_flask_session()
-    secret = json.loads(jsonString)
-    return secret['secret_key'] 
-    
-app.secret_key = get_secret()
+app.secret_key = b'lskdfjalkwoe'
 
 connect()
 
