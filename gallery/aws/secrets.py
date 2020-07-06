@@ -66,7 +66,6 @@ def get_secret_flask_session():
 
     secret_name = "sec-ig-flask_session"
     region_name = "us-west-1"
-    
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -111,7 +110,7 @@ def get_secret_flask_session():
             secret = get_secret_value_response['SecretString']
         else:
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
-            
+                   
     if secret is None:
         return decoded_binary_secret
     else:

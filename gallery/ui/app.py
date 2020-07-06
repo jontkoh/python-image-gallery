@@ -3,7 +3,7 @@ from flask import request
 from flask import render_template
 from flask import redirect
 from flask import session
-
+import json
 import psycopg2
 from ..data.db import *
 from ..data.user import User
@@ -12,7 +12,13 @@ from ..aws.secrets import get_secret_flask_session
 
 app = Flask(__name__)
 
-app.secret_key = get_secret_flask_session()['secret_key']
+def get_secret():
+    jsonString = get_secret_flask_session()
+    return json.loads(jsonString)
+def get_secretkey():
+    secret = get_secret()
+    return secret['secret_key']
+app.secret_key = get_secretkey()
 
 connect()
 
