@@ -19,4 +19,4 @@ class PostgresUserDAO(UserDAO):
     if row is None:
       return None
     else:
-      return User(row[0], row[1]. row[2])
+      return User(row[0], row[1], row[2])
