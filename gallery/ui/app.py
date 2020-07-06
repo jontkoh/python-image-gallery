@@ -3,7 +3,7 @@ from flask import request
 from flask import render_template
 from flask import redirect
 from flask import session
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 import json
 import psycopg2
 from ..data.db import *
@@ -57,7 +57,7 @@ def upload_file():
    return render_template('upload.html')
 	
 @app.route('/uploader', methods = ['GET', 'POST'])
-def upload_file():
+def uploaded_file():
    if request.method == 'POST':
       f = request.files['file']
       f.save(secure_filename(f.filename))
