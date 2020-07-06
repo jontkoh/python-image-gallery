@@ -13,6 +13,8 @@ from ..aws.secrets import get_secret_flask_session
 
 app = Flask(__name__)
 
+UPLOAD_FOLDER = '/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = b'lskdfjalkwoe'
 
 connect()
