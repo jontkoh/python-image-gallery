@@ -31,7 +31,7 @@ def connect():
 def execute(query):
     global connection
     global cursor
-    cursor = connection.cursor()
+    connect()
     cursor.execute(query)
     return cursor
 
@@ -46,7 +46,7 @@ def execute(query, record):
 def listUsers():
     global connection
     global cursor
-    cursor = connection.cursor() 
+    connect()
     cursor.execute('SELECT username, full_name FROM users;')
     username = cursor.fetchall()
     cursor.close()
@@ -56,7 +56,8 @@ def listUsers():
 #function for deleting users
 def deleteUser(user):
     global connection
-    cursor = connection.cursor()
+    global cursor
+    connect()
     pgDelete = "DELETE from users where username = '" + user + "'"
     cursor.execute(pgDelete)
     connection.commit()
@@ -66,7 +67,8 @@ def deleteUser(user):
 #function for editing users
 def editUsers(user, password, fullName):
     global connection
-    cursor = connection.cursor()
+    global cursor
+    connect()
     pgUpdate = """Update users set password = %s where username = %s"""
     cursor.execute(pgUpdate, (password, user))
 
@@ -79,7 +81,8 @@ def editUsers(user, password, fullName):
 #function for creating users
 def createUser(user, password, fullName):
     global connection
-    cursor = connection.cursor()
+    global cursor
+    connect()
     pgInsert = """INSERT INTO users (username, password, full_name) values (%s, %s, %s)"""
     record = (user, password, fullName)
     cursor.execute(pgInsert, record)

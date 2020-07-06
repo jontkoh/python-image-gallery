@@ -3,6 +3,7 @@ from flask import request
 from flask import render_template
 from flask import redirect
 from flask import session
+from werkzeug import secure_filename
 import json
 import psycopg2
 from ..data.db import *
@@ -24,7 +25,7 @@ def get_user_dao():
 
 @app.route('/')
 def hello_world():
-    return 'please go to /admin'
+    return render_template('main.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -41,6 +42,28 @@ def login():
 @app.route('/invalidLogin')
 def invalid_login():
     return "Invalid"
+
+@app.route('/debugSession')
+def debugSession():
+    result = ""
+    for key, value in session.items():
+        result += key + "->" + str(value) + "<br />"
+    return result
+
+@app.route('/upload')
+def upload_file():
+   return render_template('upload.html')
+	
+@app.route('/uploader', methods = ['GET', 'POST'])
+def upload_file():
+   if request.method == 'POST':
+      f = request.files['file']
+      f.save(secure_filename(f.filename))
+      return 'file uploaded successfully'
+
+@app.route('/viewImages')
+def view_images():
+    return 'images'
 
 @app.route('/admin')
 def hello_admin():
