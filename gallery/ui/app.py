@@ -8,11 +8,15 @@ import psycopg2
 from ..data.db import *
 from ..data.user import User
 from ..data.postgres_user_dao import PostgresUserDAO
+from ..aws.secrets import get_secret_flask_session
 
 app = Flask(__name__)
-app.secret_key = b'asdf1234'
+app.secret_key = get_secret_flask_session()
 
 connect()
+
+def check_admin():
+    return 'username' in session and session['username'] == 'admin'
 
 def get_user_dao():
     return PostgresUserDAO()
@@ -39,16 +43,22 @@ def invalid_login():
 
 @app.route('/admin')
 def hello_admin():
+    if not check_admin():
+        return redirect('/login')
     connect()
     row = listUsers()
     return render_template('admin.html', rows=row)
 
 @app.route('/admin/createUser')
 def create_user():
+    if not check_admin():
+        return redirect('/login')
     return render_template('createUser.html')
 
 @app.route('/admin/userCreated', methods=['POST'])
 def user_created():
+    if not check_admin():
+        return redirect('/login')
     user = request.form['username']
     password = request.form['password']
     fullName = request.form['fullName']
@@ -58,18 +68,26 @@ def user_created():
 
 @app.route('/admin/user')
 def hello_user():
+    if not check_admin():
+        return redirect('/login')
     return 'Hello, user'
 
 @app.route('/admin/user/edit')
 def edit():
+    if not check_admin():
+        return redirect('/login')
     return render_template('edit.html')
 
 @app.route('/admin/user/editUser', methods=['POST'])
 def edit_user():
+    if not check_admin():
+        return redirect('/login')
     return render_template('editUser.html')
 
 @app.route('/admin/user/editConfirmed', methods=['POST'])
 def edit_confirmed():
+    if not check_admin():
+        return redirect('/login')
     user = request.form['username']
     password = request.form['password']
     fullName = request.form['fullName']
@@ -79,10 +97,14 @@ def edit_confirmed():
 
 @app.route('/admin/user/delete')
 def delete_confirmation():
+    if not check_admin():
+        return redirect('/login')
     return render_template('delete.html')
 
 @app.route('/admin/user/deleteConfirmed', methods=['POST'])
 def delete_confirmed():
+    if not check_admin():
+        return redirect('/login')
     userToDelete = request.form['username']
     connect()
     deleteUser(userToDelete)
