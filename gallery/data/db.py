@@ -35,13 +35,6 @@ def execute(query):
     cursor.execute(query)
     return cursor
 
-def execute(query, record):
-    global connection
-    global cursor
-    cursor = connection.cursor()
-    cursor.execute(query, record)
-    return cursor
-
 #function for listing users
 def listUsers():
     global connection
