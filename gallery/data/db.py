@@ -38,7 +38,7 @@ def execute(query):
 def execute(query, record):
     global connection
     global cursor
-    cursor = connection.cursor()
+    connect()
     cursor.execute(query, record)
     return cursor
 
