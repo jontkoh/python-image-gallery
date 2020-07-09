@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "$IG_USER" --dbname "$IG_DATABASE" <<-EOSQL
+	CREATE USER dongji WITH PASSWORD 'cpsc4973';
+	CREATE DATABASE image-gallery;
+	GRANT ALL PRIVILEGES ON DATABASE image-gallery TO dongji;
+EOSQL
