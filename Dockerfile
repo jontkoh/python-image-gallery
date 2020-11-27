@@ -27,7 +27,7 @@ ENV PG_HOST=image-gallery.ctzdh9pwhxzw.us-west-1.rds.amazonaws.com
 ENV PG_PORT=5432
 ENV IG_DATABASE=image_gallery
 ENV IG_USER=image_gallery
-ENV IG_PASSWD=Ontherun12!
+ENV IG_PASSWD=password
 ENV IG_PASSWD_FILE=POSTGRES_PASSWORD_FILE
 ENV S3_IMAGE_BUCKET=edu.au.image-gallery
 
